@@ -23,10 +23,20 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json())
 
-app.use('/api/products', productRoutes)
-app.use('/api/users', userRoutes)
-app.use('/api/orders', orderRoutes)
-app.use('/api/upload', uploadRoutes)
+var allowlist = ['https://nzubechi-cart.netlify.app/', 'http://localhost:3000']
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (allowlist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+app.use('/api/products',cors(corsOptionsDelegate), productRoutes)
+app.use('/api/users',cors(corsOptionsDelegate), userRoutes)
+app.use('/api/orders',cors(corsOptionsDelegate), orderRoutes)
+app.use('/api/upload',cors(corsOptionsDelegate), uploadRoutes)
 
 app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
