@@ -14,7 +14,7 @@ import uploadRoutes from './routes/uploadRoutes.js'
 dotenv.config()
 
 connectDB()
-
+var cors = require('cors')
 const app = express()
 
 if (process.env.NODE_ENV === 'development') {
