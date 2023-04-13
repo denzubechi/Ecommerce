@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json())
 
-var allowlist = ['https://nzubechi-cart.netlify.app/', 'http://localhost:3000']
+var allowlist = ['https://nzubechi-cart.netlify.app', 'http://localhost:3000']
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
